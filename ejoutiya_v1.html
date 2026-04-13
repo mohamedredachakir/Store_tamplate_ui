@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EJOUTIYA — Streetwear Marketplace</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+:root{
+  --void:#050505;--s1:#0c0c0c;--s2:#141414;--s3:#1c1c1c;--s4:#252525;
+  --b1:#1a1a1a;--b2:#282828;--b3:#383838;
+  --w:#f2ede6;--w2:#b8b2a8;--w3:#6a6460;--w4:#3a3835;
+  --blood:#8B0000;--blood-dim:#1a0000;
+  --green:#22c55e;--green2:#052e16;
+  --amber:#ccaa00;--amber2:#1a1400;
+  --blue:#7b8fe8;--blue2:#070b1a;
+  --font-d:'Space Mono',monospace;
+  --font-b:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;border-radius:0!important}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--void);color:var(--w);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font-b);cursor:pointer;background:none;border:none;color:inherit}
+img{display:block;max-width:100%}
+select{font-family:var(--font-b)}
+textarea{font-family:var(--font-b)}
+input{font-family:var(--font-b)}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--void)}
+::-webkit-scrollbar-thumb{background:var(--b3)}
+
+/* NOISE TEXTURE */
+.texture{position:relative}
+.texture::before{content:'';position:absolute;inset:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px;pointer-events:none;z-index:1}
+
+/* ANN BAR */
+.ann{background:var(--w);color:var(--void);height:30px;display:flex;align-items:center;overflow:hidden;font-family:var(--font-d);font-size:10px;letter-spacing:.12em}
+.ann-inner{display:flex;white-space:nowrap;animation:ticker 40s linear infinite}
+.ann-seg{padding:0 48px}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:90;background:rgba(5,5,5,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--b1);height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 40px}
+.nav-logo{font-family:var(--font-d);font-size:17px;letter-spacing:.22em;cursor:pointer;transition:opacity .15s;text-transform:uppercase}
+.nav-logo:hover{opacity:.7}
+.nav-links{display:flex;gap:28px}
+.nav-lnk{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--w3);transition:color .15s}
+.nav-lnk:hover,.nav-lnk.on{color:var(--w)}
+.nav-r{display:flex;align-items:center;gap:16px}
+.nav-icon{color:var(--w3);font-size:15px;padding:4px;transition:color .15s;cursor:pointer}
+.nav-icon:hover{color:var(--w)}
+.cart-trig{border:1px solid var(--b2);padding:6px 14px;font-family:var(--font-d);font-size:9px;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:8px;transition:border-color .15s;cursor:pointer}
+.cart-trig:hover{border-color:var(--w)}
+.c-pill{background:var(--w);color:var(--void);font-size:9px;font-weight:700;padding:1px 5px;min-width:16px;text-align:center}
+
+/* PAGES */
+.pg{display:none;animation:fadeIn .25s ease}
+.pg.on{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* BUTTONS */
+.btn-cta{background:var(--w);color:var(--void);font-family:var(--font-d);font-size:10px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--w);padding:13px 30px;transition:background .15s,color .15s;cursor:pointer}
+.btn-cta:hover{background:var(--void);color:var(--w)}
+.btn-out{background:transparent;color:var(--w);border:1px solid var(--b3);font-family:var(--font-d);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:12px 28px;transition:border-color .15s,color .15s;cursor:pointer}
+.btn-out:hover{border-color:var(--w)}
+.lnk-all{font-family:var(--font-d);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--w3);border-bottom:1px solid var(--b3);padding-bottom:2px;transition:color .15s,border-color .15s;background:none;border-left:none;border-top:none;border-right:none;cursor:pointer}
+.lnk-all:hover{color:var(--w);border-color:var(--w)}
+
+/* HERO */
+.hero{height:calc(100svh - 84px);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;background:var(--s1)}
+.hero-line{position:absolute;top:0;width:1px;height:100%;background:var(--b1);pointer-events:none}
+.hero-ghost{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-d);font-size:clamp(60px,14vw,200px);color:rgba(242,237,230,.025);white-space:nowrap;pointer-events:none;line-height:1;user-select:none;letter-spacing:-.02em}
+.hero-body{position:relative;z-index:2;padding:0 40px 52px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.hero-h1{font-family:var(--font-d);font-size:clamp(44px,9vw,108px);line-height:.9;letter-spacing:-.025em;text-transform:uppercase}
+.hero-sub{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--w3);margin-top:18px;display:flex;align-items:center;gap:10px}
+.hero-sub::before{content:'';display:block;width:24px;height:1px;background:var(--w4)}
+.hero-actions{display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.hero-scroll{font-family:var(--font-d);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--w4)}
+
+/* MARQUEE */
+.mq{border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);overflow:hidden;padding:12px 0}
+.mq-inner{display:flex;white-space:nowrap;animation:ticker 26s linear infinite;font-family:var(--font-d);font-size:10px;letter-spacing:.14em;color:var(--w3)}
+.mq-seg{padding:0 40px}
+.mq-dot{color:var(--w4);margin:0 4px}
+
+/* SECTION */
+.sec{padding:72px 40px}
+.sec-sm{padding:40px 40px}
+.sec-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;padding-bottom:16px;border-bottom:1px solid var(--b1)}
+.sec-label{font-family:var(--font-d);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--w4);margin-bottom:6px}
+.sec-title{font-family:var(--font-d);font-size:clamp(22px,4.5vw,52px);text-transform:uppercase;letter-spacing:-.02em;line-height:1}
+
+/* PRODUCT GRID */
+.pg-grid{display:grid;gap:1px;background:var(--b1)}
+.pg-grid-4{grid-template-columns:repeat(4,1fr)}
+.pg-grid-3{grid-template-columns:repeat(3,1fr)}
+.pg-grid-auto{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+
+/* PRODUCT CARD */
+.pc{background:var(--void);cursor:pointer;position:relative;overflow:hidden;transition:background .2s}
+.pc:hover{background:var(--s1)}
+.pc-img{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--s2)}
+.pc-img-inner{width:100%;height:100%;transition:transform .7s cubic-bezier(.25,.46,.45,.94);display:flex;align-items:center;justify-content:center}
+.pc:hover .pc-img-inner{transform:scale(1.05)}
+.pc-badge{position:absolute;top:10px;left:10px;font-family:var(--font-d);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;z-index:2}
+.bn{background:var(--w);color:var(--void)}
+.bl{background:var(--blood);color:var(--w)}
+.ba{background:var(--void);border:1px solid var(--b3);color:var(--w3)}
+.pc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,.96) 0%,transparent 55%);transform:translateY(100%);transition:transform .28s ease;display:flex;align-items:flex-end;padding:12px;gap:5px;flex-wrap:wrap;z-index:3}
+.pc:hover .pc-overlay{transform:translateY(0)}
+.sq{width:34px;height:34px;background:transparent;border:1px solid rgba(242,237,230,.25);color:rgba(242,237,230,.6);font-family:var(--font-d);font-size:9px;cursor:pointer;transition:all .12s;text-transform:uppercase}
+.sq:hover{background:var(--w);color:var(--void);border-color:var(--w)}
+.sq.oos{opacity:.2;cursor:not-allowed}
+.pc-info{padding:12px 14px 16px;border-top:1px solid var(--b1);display:flex;justify-content:space-between;align-items:flex-start}
+.pc-name{font-family:var(--font-d);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--w);line-height:1.5}
+.pc-sub{font-size:10px;color:var(--w4);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+.pc-price{font-family:var(--font-d);font-size:12px;white-space:nowrap}
+.pc-price-old{text-decoration:line-through;color:var(--w4);font-size:10px;display:block}
+.pp{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:clamp(14px,3vw,32px);color:rgba(242,237,230,.05);text-transform:uppercase;letter-spacing:.04em;user-select:none}
+
+/* BENTO COLLECTIONS */
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--b1)}
+.bc{position:relative;overflow:hidden;cursor:pointer;background:var(--s1);display:flex;flex-direction:column;justify-content:flex-end}
+.bc.tall{aspect-ratio:4/5}
+.bc.wide{grid-column:span 2;aspect-ratio:21/8}
+.bc-bg{position:absolute;inset:0;transition:transform .9s ease}
+.bc:hover .bc-bg{transform:scale(1.04)}
+.bc-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,.9) 0%,rgba(5,5,5,.3) 60%,transparent 100%)}
+.bc-info{position:relative;z-index:2;padding:22px}
+.bc-tag{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--w3);margin-bottom:6px}
+.bc-name{font-family:var(--font-d);font-size:clamp(15px,2.8vw,26px);text-transform:uppercase;letter-spacing:.03em;margin-bottom:10px}
+.bc-cta{font-family:var(--font-d);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--w3);border-bottom:1px solid var(--b3);padding-bottom:2px;display:inline-block;background:none;border-left:none;border-top:none;border-right:none;transition:color .15s,border-color .15s;cursor:pointer}
+.bc:hover .bc-cta{color:var(--w);border-color:var(--w)}
+.pat-1{background:linear-gradient(135deg,#0c0c0c,#0f0e0c)}
+.pat-2{background:linear-gradient(135deg,#0e0d0b,#141210)}
+.pat-3{background:linear-gradient(135deg,#0a0a10,#0d0c0c)}
+.pat-4{background:linear-gradient(135deg,#100e0a,#0c0c0c)}
+.pat-5{background:linear-gradient(135deg,#0c100c,#0d0d0d)}
+.pat-wide{background:linear-gradient(135deg,#0a0a0a,#111)}
+
+/* MANIFESTO */
+.mani{padding:100px 40px;max-width:960px;margin:0 auto;text-align:center;border-top:1px solid var(--b1)}
+.mani-eye{font-family:var(--font-d);font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--w4);margin-bottom:32px}
+.mani-body{font-family:var(--font-d);font-size:clamp(17px,3.2vw,38px);line-height:1.35;letter-spacing:-.01em;text-transform:uppercase}
+.mani-dim{color:var(--w3)}
+
+/* STORES GRID */
+.store-grid{display:grid;gap:1px;background:var(--b1);grid-template-columns:repeat(3,1fr)}
+.sc{background:var(--void);cursor:pointer;transition:background .2s;overflow:hidden}
+.sc:hover{background:var(--s1)}
+.sc-cover{aspect-ratio:21/9;background:var(--s2);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.sc-cover-inner{width:100%;height:100%;transition:transform .7s cubic-bezier(.25,.46,.45,.94)}
+.sc:hover .sc-cover-inner{transform:scale(1.04)}
+.sc-info{padding:16px 18px 20px;border-top:1px solid var(--b1)}
+.sc-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.sc-logo{width:36px;height:36px;background:var(--s3);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:9px;color:var(--w4);flex-shrink:0}
+.sc-name{font-family:var(--font-d);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.sc-bio{font-size:11px;color:var(--w3);line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:12px}
+.sc-footer{display:flex;justify-content:space-between;align-items:center}
+.sc-count{font-family:var(--font-d);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--w4)}
+
+/* SHOP PAGE */
+.shop-top{padding:52px 40px 28px;border-bottom:1px solid var(--b1);display:flex;justify-content:space-between;align-items:flex-end}
+.shop-h{font-family:var(--font-d);font-size:clamp(28px,7vw,80px);text-transform:uppercase;letter-spacing:-.03em;line-height:.9}
+.shop-meta{text-align:right}
+.shop-ct{font-family:var(--font-d);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--w4)}
+.fbar{padding:14px 40px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:var(--void);position:sticky;top:54px;z-index:80}
+.fb{border:1px solid var(--b2);color:var(--w3);font-family:var(--font-d);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px;transition:all .15s;cursor:pointer}
+.fb:hover,.fb.on{border-color:var(--w);color:var(--w);background:var(--s2)}
+.fsep{width:1px;height:18px;background:var(--b2);margin:0 4px;flex-shrink:0}
+.fsort{background:var(--s1);border:1px solid var(--b2);color:var(--w3);font-family:var(--font-d);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;outline:none;transition:all .15s;cursor:pointer}
+.fsort:hover{border-color:var(--w);color:var(--w)}
+.fsort option{background:var(--s2);color:var(--w)}
+
+/* PRODUCT DETAIL */
+.det-wrap{display:grid;grid-template-columns:1fr 400px;min-height:calc(100vh - 84px)}
+.det-gal{position:sticky;top:54px;height:calc(100vh - 54px);background:var(--s1);border-right:1px solid var(--b1);overflow:hidden;display:flex;flex-direction:column}
+.det-main{flex:1;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+.det-thumbs{display:flex;gap:4px;padding:12px;border-top:1px solid var(--b1);background:var(--s2)}
+.det-thumb{width:54px;height:70px;overflow:hidden;cursor:pointer;border:1px solid transparent;flex-shrink:0;background:var(--s3);display:flex;align-items:center;justify-content:center;transition:border-color .15s}
+.det-thumb.on{border-color:var(--w)}
+.det-panel{padding:44px 36px;overflow-y:auto;display:flex;flex-direction:column;gap:24px}
+.det-back{display:flex;align-items:center;gap:8px;font-family:var(--font-d);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--w4);cursor:pointer;transition:color .15s;margin-bottom:-8px}
+.det-back:hover{color:var(--w)}
+.det-coll{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--w4);border-left:2px solid var(--w4);padding-left:10px}
+.det-name{font-family:var(--font-d);font-size:clamp(20px,2.8vw,32px);text-transform:uppercase;line-height:1.05;letter-spacing:-.01em}
+.det-price{font-family:var(--font-d);font-size:20px;letter-spacing:.04em;display:flex;align-items:baseline;gap:10px}
+.det-oldprice{font-size:13px;color:var(--w4);text-decoration:line-through}
+.det-div{height:1px;background:var(--b1)}
+.det-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--w3)}
+.sz-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sz-err{font-size:10px;color:var(--blood);letter-spacing:.08em;text-transform:uppercase}
+.sz-grid{display:flex;gap:5px;flex-wrap:wrap}
+.sz-btn{width:46px;height:46px;background:transparent;border:1px solid var(--b2);color:var(--w3);font-family:var(--font-d);font-size:10px;cursor:pointer;transition:all .12s;text-transform:uppercase;position:relative}
+.sz-btn:hover{border-color:var(--w);color:var(--w)}
+.sz-btn.on{background:var(--w);color:var(--void);border-color:var(--w)}
+.sz-btn.oos{opacity:.22;cursor:not-allowed}
+.sz-btn.oos::after{content:'';position:absolute;top:50%;left:4px;right:4px;height:1px;background:var(--w3);transform:rotate(-20deg)}
+.btn-atc{width:100%;background:var(--w);color:var(--void);border:1px solid var(--w);font-family:var(--font-d);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:15px;transition:background .15s,color .15s;cursor:pointer}
+.btn-atc:hover{background:var(--void);color:var(--w)}
+.btn-atc:disabled{background:var(--b3);border-color:var(--b3);color:var(--w4);cursor:not-allowed}
+.det-desc{font-size:13px;color:var(--w3);line-height:1.9}
+.det-store-row{display:flex;align-items:center;gap:12px;padding:12px;background:var(--s1);border:1px solid var(--b1);cursor:pointer;transition:background .15s}
+.det-store-row:hover{background:var(--s2)}
+
+/* STORE DETAIL PAGE */
+.store-hero{position:relative;height:380px;background:var(--s1);overflow:hidden;display:flex;align-items:flex-end}
+.store-hero-bg{position:absolute;inset:0;background:var(--s2)}
+.store-hero-ghost{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-d);font-size:clamp(50px,12vw,160px);color:rgba(242,237,230,.025);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-.02em;text-transform:uppercase}
+.store-hero-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,.92) 0%,rgba(5,5,5,.3) 70%,transparent 100%)}
+.store-hero-body{position:relative;z-index:2;padding:0 40px 36px;display:flex;align-items:flex-end;gap:20px;width:100%}
+.store-logo-lg{width:56px;height:56px;background:var(--s3);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:12px;color:var(--w4);flex-shrink:0}
+.store-hero-info .store-name-lg{font-family:var(--font-d);font-size:clamp(22px,5vw,52px);text-transform:uppercase;letter-spacing:-.02em;line-height:1}
+.store-hero-info .store-bio-lg{font-size:12px;color:var(--w3);margin-top:6px;max-width:500px}
+.store-status{font-family:var(--font-d);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border:1px solid;margin-left:auto;flex-shrink:0}
+.ss-active{border-color:#1a5c2e;color:var(--green);background:var(--green2)}
+.ss-pending{border-color:#665500;color:var(--amber);background:var(--amber2)}
+.ss-suspended{border-color:var(--blood);color:#ff6b6b;background:var(--blood-dim)}
+
+/* STORES PAGE */
+.stores-top{padding:52px 40px 28px;border-bottom:1px solid var(--b1);display:flex;justify-content:space-between;align-items:flex-end}
+
+/* AUTH */
+.auth-overlay{position:fixed;inset:0;background:rgba(5,5,5,.88);z-index:200;display:flex;align-items:center;justify-content:center;animation:fadeIn .2s ease;padding:20px}
+.auth-box{width:100%;max-width:420px;background:var(--s1);border:1px solid var(--b2);padding:40px}
+.auth-title{font-family:var(--font-d);font-size:22px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.auth-sub{font-size:12px;color:var(--w3);margin-bottom:32px}
+.auth-switch{text-align:center;margin-top:20px;font-size:12px;color:var(--w4)}
+.auth-switch button{color:var(--w);text-decoration:underline;text-underline-offset:3px;font-size:12px;padding:0}
+.auth-close{position:absolute;top:16px;right:20px;color:var(--w3);font-size:22px;cursor:pointer;transition:color .15s;padding:4px}
+.auth-close:hover{color:var(--w)}
+.auth-box{position:relative}
+.fl{margin-bottom:18px}
+.fl-lbl{display:block;font-size:9px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--w3);margin-bottom:7px}
+.fi{width:100%;background:var(--s2);border:1px solid var(--b2);color:var(--w);padding:11px 13px;font-size:13px;outline:none;transition:border-color .15s;-webkit-appearance:none}
+.fi:focus{border-color:var(--w)}
+.fi::placeholder{color:var(--w4);font-size:11px;letter-spacing:.05em}
+.ft{resize:vertical;min-height:80px}
+.auth-err{font-size:10px;color:var(--blood);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;font-family:var(--font-d)}
+.step-indicator{display:flex;gap:10px;align-items:center;margin-bottom:28px;font-family:var(--font-d);font-size:9px;letter-spacing:.14em;text-transform:uppercase}
+.step-item{color:var(--w4)}
+.step-item.on{color:var(--w);border-bottom:1px solid var(--w);padding-bottom:2px}
+
+/* CART DRAWER */
+.cb{position:fixed;inset:0;background:rgba(5,5,5,.78);z-index:198;opacity:0;pointer-events:none;transition:opacity .3s}
+.cb.on{opacity:1;pointer-events:all}
+.cd{position:fixed;top:0;right:0;width:390px;height:100vh;background:var(--void);border-left:1px solid var(--b2);z-index:199;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(.25,.46,.45,.94)}
+.cd.on{transform:translateX(0)}
+.cd-hdr{padding:18px 22px;border-bottom:1px solid var(--b1);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.cd-title{font-family:var(--font-d);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.cd-close{color:var(--w3);font-size:20px;line-height:1;padding:4px;transition:color .15s;cursor:pointer}
+.cd-close:hover{color:var(--w)}
+.cd-body{flex:1;overflow-y:auto}
+.cd-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:14px;padding:48px;text-align:center}
+.cd-empty-icon{font-family:var(--font-d);font-size:36px;color:var(--w4)}
+.cd-empty-txt{font-family:var(--font-d);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--w4);line-height:1.9}
+.ci{display:grid;grid-template-columns:68px 1fr auto;gap:12px;padding:16px 22px;border-bottom:1px solid var(--b1);align-items:start}
+.ci-img{width:68px;aspect-ratio:3/4;background:var(--s2);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:8px;color:var(--w4);letter-spacing:.1em;flex-shrink:0;text-transform:uppercase}
+.ci-name{font-family:var(--font-d);font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.ci-meta{font-size:11px;color:var(--w4);text-transform:uppercase;letter-spacing:.05em}
+.ci-qty{display:flex;align-items:center;gap:7px;margin-top:9px}
+.qb{width:22px;height:22px;border:1px solid var(--b2);color:var(--w);font-size:13px;display:flex;align-items:center;justify-content:center;transition:border-color .15s;cursor:pointer;line-height:1}
+.qb:hover{border-color:var(--w)}
+.qn{font-family:var(--font-d);font-size:11px;min-width:16px;text-align:center}
+.ci-p{font-family:var(--font-d);font-size:12px}
+.ci-rm{color:var(--w4);font-size:18px;line-height:1;padding:2px;transition:color .15s;cursor:pointer}
+.ci-rm:hover{color:var(--blood)}
+.cd-foot{padding:20px 22px;border-top:1px solid var(--b1);flex-shrink:0}
+.cd-tot{display:flex;justify-content:space-between;margin-bottom:14px;font-family:var(--font-d);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.cd-tot-v{font-size:15px}
+.btn-co{width:100%;background:var(--w);color:var(--void);font-family:var(--font-d);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:15px;border:none;transition:opacity .15s;cursor:pointer}
+.btn-co:hover{opacity:.86}
+.cd-checkout{padding:22px}
+.cd-checkout-hdr{font-family:var(--font-d);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--b1)}
+.conf-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;text-align:center;gap:20px}
+.conf-check{width:56px;height:56px;border:1px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:20px;color:var(--green)}
+.conf-h{font-family:var(--font-d);font-size:clamp(18px,3vw,28px);text-transform:uppercase;letter-spacing:-.02em;line-height:1}
+.conf-id{font-family:var(--font-d);font-size:11px;letter-spacing:.16em;color:var(--amber);padding:8px 18px;border:1px solid #332200}
+
+/* DASHBOARD */
+.dash-wrap{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 84px)}
+.dash-sidebar{background:var(--s1);border-right:1px solid var(--b1);padding:28px 0;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto}
+.dash-logo-area{padding:0 24px 24px;border-bottom:1px solid var(--b1);margin-bottom:16px}
+.dash-store-name{font-family:var(--font-d);font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.dash-store-status{font-family:var(--font-d);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border:1px solid;display:inline-block;margin-top:4px}
+.dash-nav-item{display:block;width:100%;text-align:left;font-family:var(--font-d);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--w3);padding:12px 24px;border-bottom:1px solid var(--b1);transition:all .15s;cursor:pointer}
+.dash-nav-item:hover,.dash-nav-item.on{color:var(--w);background:var(--s2)}
+.dash-content{padding:40px;overflow-y:auto}
+.dash-tab{display:none}
+.dash-tab.on{display:block}
+.dash-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--b1)}
+.dash-h{font-family:var(--font-d);font-size:clamp(20px,3.5vw,40px);text-transform:uppercase;letter-spacing:-.02em}
+.prod-table{width:100%;border-collapse:collapse}
+.prod-table th{padding:10px 12px;text-align:left;font-family:var(--font-d);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--w3);border-bottom:1px solid var(--b1);background:var(--s1)}
+.prod-table td{padding:12px;border-bottom:1px solid var(--b1);font-size:12px;vertical-align:middle}
+.prod-thumb{width:36px;height:46px;background:var(--s2);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:7px;color:var(--w4)}
+.tbl-action{font-family:var(--font-d);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid;transition:all .15s;cursor:pointer}
+.tbl-edit{border-color:var(--b3);color:var(--w3)}
+.tbl-edit:hover{border-color:var(--w);color:var(--w)}
+.tbl-del{border-color:var(--blood-dim);color:var(--blood)}
+.tbl-del:hover{border-color:var(--blood);background:var(--blood-dim)}
+.status-pill{font-family:var(--font-d);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border:1px solid}
+.sp-active{border-color:#1a5c2e;color:var(--green);background:var(--green2)}
+.sp-hidden{border-color:var(--b3);color:var(--w4);background:var(--s2)}
+.sp-oos{border-color:#665500;color:var(--amber);background:var(--amber2)}
+.order-row{display:grid;grid-template-columns:1fr 1.2fr 1fr 0.7fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--b1);font-size:12px}
+.order-id-text{font-family:var(--font-d);font-size:10px;letter-spacing:.08em;color:var(--amber)}
+.os-PENDING{border-color:#665500;color:var(--amber);background:var(--amber2)}
+.os-CONFIRMED{border-color:#1a5c2e;color:var(--green);background:var(--green2)}
+.os-DELIVERY{border-color:#2a3a7e;color:var(--blue);background:var(--blue2)}
+.os-REJECTED{border-color:var(--blood);color:#ff6b6b;background:var(--blood-dim)}
+.order-action{font-family:var(--font-d);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid;cursor:pointer;transition:all .15s}
+.oa-confirm{border-color:#1a5c2e;color:var(--green)}
+.oa-confirm:hover{background:var(--green2)}
+.oa-reject{border-color:var(--blood);color:#ff6b6b}
+.oa-reject:hover{background:var(--blood-dim)}
+
+/* PRODUCT DRAWER */
+.prod-drawer-overlay{position:fixed;inset:0;background:rgba(5,5,5,.78);z-index:198;opacity:0;pointer-events:none;transition:opacity .3s}
+.prod-drawer-overlay.on{opacity:1;pointer-events:all}
+.prod-drawer{position:fixed;top:0;right:0;width:460px;height:100vh;background:var(--s1);border-left:1px solid var(--b2);z-index:199;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(.25,.46,.45,.94);overflow-y:auto}
+.prod-drawer.on{transform:translateX(0)}
+.pd-hdr{padding:20px 24px;border-bottom:1px solid var(--b1);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;position:sticky;top:0;background:var(--s1);z-index:10}
+.pd-body{padding:28px 24px;display:flex;flex-direction:column;gap:18px}
+.img-drop{border:1px dashed var(--b3);padding:28px;text-align:center;cursor:pointer;transition:border-color .15s}
+.img-drop:hover{border-color:var(--w)}
+.img-drop-txt{font-family:var(--font-d);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--w4)}
+
+/* PROFILE PAGE */
+.profile-wrap{padding:56px 40px;border-top:1px solid var(--b1)}
+.profile-hdr{border-bottom:1px solid var(--b1);padding-bottom:20px;margin-bottom:36px;display:flex;justify-content:space-between;align-items:flex-end}
+.profile-h{font-family:var(--font-d);font-size:clamp(22px,4vw,44px);text-transform:uppercase;letter-spacing:-.02em}
+.profile-grid{display:grid;grid-template-columns:240px 1fr;gap:1px;background:var(--b1)}
+.profile-sidebar{background:var(--void);padding:24px}
+.profile-nav-btn{display:block;width:100%;text-align:left;font-family:var(--font-d);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--w3);padding:10px 0;border-bottom:1px solid var(--b1);transition:color .15s;cursor:pointer}
+.profile-nav-btn:hover,.profile-nav-btn.on{color:var(--w)}
+.profile-content{background:var(--s1);padding:28px}
+.profile-tab{display:none}
+.profile-tab.on{display:block}
+.profile-sec-h{font-family:var(--font-d);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--b1)}
+.order-row-client{display:grid;grid-template-columns:1fr 1.2fr 0.8fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--b1);font-size:12px}
+.sg-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:16px}
+.sg-table th{padding:8px 12px;text-align:left;font-family:var(--font-d);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--w3);background:var(--s1);border:1px solid var(--b1)}
+.sg-table td{padding:8px 12px;border:1px solid var(--b1);color:var(--w3)}
+.sg-table tr:hover td{background:var(--s2)}
+
+/* ADMIN */
+.admin-wrap{display:grid;grid-template-columns:200px 1fr;min-height:calc(100vh - 84px)}
+.admin-sidebar{background:var(--s1);border-right:1px solid var(--b1);padding:24px 0}
+.admin-nav-item{display:block;width:100%;text-align:left;font-family:var(--font-d);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--w3);padding:12px 24px;border-bottom:1px solid var(--b1);transition:all .15s;cursor:pointer}
+.admin-nav-item:hover,.admin-nav-item.on{color:var(--w);background:var(--s2)}
+.admin-content{padding:40px;overflow-y:auto}
+.admin-tab{display:none}
+.admin-tab.on{display:block}
+
+/* FOOTER */
+.foot{border-top:1px solid var(--b1);padding:48px 40px;display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:40px}
+.foot-logo{font-family:var(--font-d);font-size:15px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:10px}
+.foot-tag{font-size:11px;color:var(--w4);line-height:1.8;max-width:220px}
+.foot-h{font-family:var(--font-d);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--w3);margin-bottom:14px}
+.foot-lnk{display:block;font-size:12px;color:var(--w4);margin-bottom:8px;letter-spacing:.03em;transition:color .15s;text-align:left;padding:0;cursor:pointer}
+.foot-lnk:hover{color:var(--w)}
+.foot-bot{border-top:1px solid var(--b1);padding:14px 40px;display:flex;justify-content:space-between;align-items:center}
+.foot-cp{font-family:var(--font-d);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--w4)}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--w);color:var(--void);font-family:var(--font-d);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:11px 22px;z-index:400;transition:transform .3s ease;white-space:nowrap;pointer-events:none}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--blood);color:var(--w)}
+
+/* MISC */
+.div{height:1px;background:var(--b1)}
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann">
+  <div class="ann-inner">
+    <span class="ann-seg">LIVRAISON GRATUITE DÈS 500 MAD &nbsp;•&nbsp; NOUVEAU DROP EN APPROCHE &nbsp;•&nbsp; CASH ON DELIVERY UNIQUEMENT &nbsp;•&nbsp; EJOUTIYA — STREETWEAR MULTI-BRANDS &nbsp;•&nbsp; MAROC'S FINEST BRANDS IN ONE PLACE &nbsp;•&nbsp; QUANTITÉS LIMITÉES &nbsp;•&nbsp;</span>
+    <span class="ann-seg">LIVRAISON GRATUITE DÈS 500 MAD &nbsp;•&nbsp; NOUVEAU DROP EN APPROCHE &nbsp;•&nbsp; CASH ON DELIVERY UNIQUEMENT &nbsp;•&nbsp; EJOUTIYA — STREETWEAR MULTI-BRANDS &nbsp;•&nbsp; MAROC'S FINEST BRANDS IN ONE PLACE &nbsp;•&nbsp; QUANTITÉS LIMITÉES &nbsp;•&nbsp;</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo" onclick="go('home')">EJOUTIYA</div>
+  <div class="nav-links">
+    <button class="nav-lnk on" id="nl-home" onclick="go('home')">Home</button>
+    <button class="nav-lnk" id="nl-shop" onclick="go('shop')">Shop</button>
+    <button class="nav-lnk" id="nl-stores" onclick="go('stores')">Brands</button>
+    <button class="nav-lnk" id="nl-dashboard" onclick="go('dashboard')" style="display:none">Dashboard</button>
+    <button class="nav-lnk" id="nl-admin" onclick="go('admin')" style="display:none">Admin</button>
+  </div>
+  <div class="nav-r">
+    <button class="nav-icon" id="nav-auth-btn" onclick="openAuth('login')" title="Sign In"><i class="fa-regular fa-user"></i></button>
+    <button class="nav-icon" id="nav-profile-btn" onclick="go('profile')" title="Profile" style="display:none"><i class="fa-regular fa-user"></i></button>
+    <button class="cart-trig" id="cart-btn" onclick="toggleCart()">CART <span class="c-pill" id="cCount">0</span></button>
+  </div>
+</nav>
+
+<!-- ═══ HOME ═══ -->
+<div class="pg on texture" id="pg-home">
+  <section class="hero texture">
+    <div class="hero-line" style="left:0"></div>
+    <div class="hero-line" style="left:33.33%"></div>
+    <div class="hero-line" style="left:66.66%"></div>
+    <div class="hero-line" style="left:100%"></div>
+    <div class="hero-ghost">EJOUTIYA</div>
+    <div class="hero-body">
+      <div>
+        <h1 class="hero-h1">THE<br>STREETS<br>BELONG<br>TO US.</h1>
+        <p class="hero-sub">Multi-Brand &nbsp;·&nbsp; Streetwear &nbsp;·&nbsp; Morocco</p>
+      </div>
+      <div class="hero-actions">
+        <p class="hero-scroll">↓ Scroll</p>
+        <button class="btn-cta" onclick="go('shop')">SHOP ALL →</button>
+        <button class="btn-out" onclick="go('stores')">ALL BRANDS</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="mq">
+    <div class="mq-inner">
+      <span class="mq-seg">EJOUTIYA</span><span class="mq-dot">///</span>
+      <span class="mq-seg">STREETWEAR MARKETPLACE</span><span class="mq-dot">///</span>
+      <span class="mq-seg">MULTIPLE BRANDS</span><span class="mq-dot">///</span>
+      <span class="mq-seg">CASH ON DELIVERY</span><span class="mq-dot">///</span>
+      <span class="mq-seg">MAROC ONLY</span><span class="mq-dot">///</span>
+      <span class="mq-seg">LIMITED DROPS</span><span class="mq-dot">///</span>
+      <span class="mq-seg">REBELLION ONLY</span><span class="mq-dot">///</span>
+      <span class="mq-seg">EJOUTIYA</span><span class="mq-dot">///</span>
+      <span class="mq-seg">STREETWEAR MARKETPLACE</span><span class="mq-dot">///</span>
+      <span class="mq-seg">MULTIPLE BRANDS</span><span class="mq-dot">///</span>
+      <span class="mq-seg">CASH ON DELIVERY</span><span class="mq-dot">///</span>
+      <span class="mq-seg">MAROC ONLY</span><span class="mq-dot">///</span>
+    </div>
+  </div>
+
+  <section class="sec">
+    <div class="sec-hdr">
+      <div><div class="sec-label">Latest Drops</div><div class="sec-title">NEW ARRIVALS</div></div>
+      <button class="lnk-all" onclick="go('shop')">VIEW ALL →</button>
+    </div>
+    <div class="pg-grid pg-grid-4" id="home-feat"></div>
+  </section>
+
+  <section class="sec-sm" style="padding-top:0">
+    <div class="sec-hdr">
+      <div><div class="sec-label">Categories</div><div class="sec-title">SHOP BY STYLE</div></div>
+      <button class="lnk-all" onclick="go('shop')">ALL →</button>
+    </div>
+    <div class="bento">
+      <div class="bc tall" onclick="filterCat('HOODIE')"><div class="bc-bg pat-1"><div class="pp">HOODIE</div></div><div class="bc-grad"></div><div class="bc-info"><div class="bc-tag">Heavyweight Series</div><div class="bc-name">HOODIES</div><button class="bc-cta">EXPLORE →</button></div></div>
+      <div class="bc tall" onclick="filterCat('T-SHIRT')"><div class="bc-bg pat-2"><div class="pp">TEE</div></div><div class="bc-grad"></div><div class="bc-info"><div class="bc-tag">Graphic & Blank</div><div class="bc-name">T-SHIRTS</div><button class="bc-cta">EXPLORE →</button></div></div>
+      <div class="bc tall" onclick="filterCat('JACKET')"><div class="bc-bg pat-3"><div class="pp">JACKET</div></div><div class="bc-grad"></div><div class="bc-info"><div class="bc-tag">Outerwear</div><div class="bc-name">JACKETS</div><button class="bc-cta">EXPLORE →</button></div></div>
+      <div class="bc tall" onclick="filterCat('PANTS')"><div class="bc-bg pat-4"><div class="pp">PANTS</div></div><div class="bc-grad"></div><div class="bc-info"><div class="bc-tag">Baggy & Cargo</div><div class="bc-name">PANTS</div><button class="bc-cta">EXPLORE →</button></div></div>
+      <div class="bc wide" onclick="go('stores')"><div class="bc-bg pat-wide" style="width:100%;height:100%"><div class="pp" style="font-size:clamp(40px,10vw,120px)">BRANDS</div></div><div class="bc-grad"></div><div class="bc-info" style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="bc-tag">Multi-Vendor Platform</div><div class="bc-name">ALL BRANDS</div><button class="bc-cta">EXPLORE ALL STORES →</button></div><div style="font-family:var(--font-d);font-size:9px;letter-spacing:.14em;color:var(--w3);text-align:right">MULTIPLE<br>BRANDS</div></div></div>
+    </div>
+  </section>
+
+  <div class="mani">
+    <div class="mani-eye">— Our Belief —</div>
+    <p class="mani-body">We don't sell clothes.<br><span class="mani-dim">We sell the version of</span><br>yourself that doesn't<br><span class="mani-dim">apologize. Ever.</span><br>Streetwear is rebellion.<br><span class="mani-dim">This is your uniform.</span></p>
+  </div>
+
+  <!-- BRANDS SECTION on home -->
+  <section class="sec" style="padding-top:0">
+    <div class="sec-hdr">
+      <div><div class="sec-label">Featured</div><div class="sec-title">TOP BRANDS</div></div>
+      <button class="lnk-all" onclick="go('stores')">ALL BRANDS →</button>
+    </div>
+    <div class="store-grid" id="home-stores"></div>
+  </section>
+
+  <div id="home-foot"></div>
+</div>
+
+<!-- ═══ SHOP ═══ -->
+<div class="pg" id="pg-shop">
+  <div class="shop-top">
+    <div><div style="font-family:var(--font-d);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--w4);margin-bottom:8px">EJOUTIYA — CATALOG</div><div class="shop-h">ALL<br>PRODUCTS</div></div>
+    <div class="shop-meta"><div class="shop-ct" id="shopCt">— PRODUCTS</div><div style="font-size:11px;color:var(--w4);margin-top:4px">Cash on Delivery · All Morocco</div></div>
+  </div>
+  <div class="fbar">
+    <button class="fb on" onclick="setF('ALL',this)">ALL</button>
+    <div class="fsep"></div>
+    <button class="fb" onclick="setF('T-SHIRT',this)">T-SHIRTS</button>
+    <button class="fb" onclick="setF('HOODIE',this)">HOODIES</button>
+    <button class="fb" onclick="setF('JACKET',this)">JACKETS</button>
+    <button class="fb" onclick="setF('PANTS',this)">PANTS</button>
+    <button class="fb" onclick="setF('ACCESSORIES',this)">ACCESSORIES</button>
+    <div class="fsep"></div>
+    <select class="fsort" onchange="setSort(this.value)">
+      <option value="default">SORT: DEFAULT</option>
+      <option value="price-asc">PRICE: LOW → HIGH</option>
+      <option value="price-desc">PRICE: HIGH → LOW</option>
+      <option value="name">A → Z</option>
+    </select>
+  </div>
+  <div class="pg-grid pg-grid-auto" id="shop-grid"></div>
+  <div id="shop-foot"></div>
+</div>
+
+<!-- ═══ PRODUCT DETAIL ═══ -->
+<div class="pg" id="pg-detail">
+  <div class="det-wrap">
+    <div class="det-gal texture">
+      <div class="det-main" id="det-main"></div>
+      <div class="det-thumbs" id="det-thumbs"></div>
+    </div>
+    <div class="det-panel">
+      <div class="det-back" id="det-back" onclick="goBack()">← <span id="det-back-txt">BACK</span></div>
+      <div class="det-coll" id="det-coll"></div>
+      <h1 class="det-name" id="det-name"></h1>
+      <div class="det-price" id="det-price"></div>
+      <div class="det-div"></div>
+      <div id="det-store-row"></div>
+      <div class="det-div"></div>
+      <div>
+        <div class="sz-hdr">
+          <span class="det-lbl">SIZE</span>
+          <div style="display:flex;gap:10px;align-items:center">
+            <span class="sz-err" id="sz-err" style="display:none">SELECT A SIZE</span>
+          </div>
+        </div>
+        <div class="sz-grid" id="sz-grid"></div>
+      </div>
+      <button class="btn-atc" id="btn-atc" onclick="doAtc()">ADD TO CART →</button>
+      <p class="det-desc" id="det-desc"></p>
+      <div style="padding:16px;background:var(--s1);border:1px solid var(--b1)">
+        <div style="font-family:var(--font-d);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--w4);margin-bottom:8px">Cash on Delivery &nbsp;·&nbsp; All Morocco</div>
+        <div style="font-size:12px;color:var(--w3)">Paiement à la livraison uniquement. Commandez maintenant, payez à la réception.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ STORES ═══ -->
+<div class="pg" id="pg-stores">
+  <div class="stores-top">
+    <div><div style="font-family:var(--font-d);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--w4);margin-bottom:8px">EJOUTIYA — MARKETPLACE</div><div class="shop-h">ALL<br>BRANDS</div></div>
+    <div class="shop-meta"><div class="shop-ct" id="storesCt">— BRANDS</div></div>
+  </div>
+  <div class="store-grid" style="margin-top:1px" id="stores-grid"></div>
+  <div id="stores-foot"></div>
+</div>
+
+<!-- ═══ STORE DETAIL ═══ -->
+<div class="pg" id="pg-store-detail">
+  <div id="store-detail-inner"></div>
+</div>
+
+<!-- ═══ PROFILE ═══ -->
+<div class="pg" id="pg-profile">
+  <div class="profile-wrap">
+    <div class="profile-hdr">
+      <div>
+        <div style="font-family:var(--font-d);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--w4);margin-bottom:8px">CLIENT AREA</div>
+        <div class="profile-h" id="profile-name">MY ACCOUNT</div>
+      </div>
+    </div>
+    <div class="profile-grid">
+      <div class="profile-sidebar">
+        <button class="profile-nav-btn on" onclick="showProfileTab('orders',this)">MY ORDERS</button>
+        <button class="profile-nav-btn" onclick="showProfileTab('settings',this)">SETTINGS</button>
+        <button class="profile-nav-btn" onclick="showProfileTab('sizeguide',this)">SIZE GUIDE</button>
+        <button class="profile-nav-btn" style="margin-top:40px;color:var(--blood)" onclick="logout()">LOGOUT →</button>
+      </div>
+      <div class="profile-content">
+        <div class="profile-tab on" id="ptab-orders">
+          <div class="profile-sec-h">ORDER HISTORY</div>
+          <div id="profile-orders-list"></div>
+        </div>
+        <div class="profile-tab" id="ptab-settings">
+          <div class="profile-sec-h">ACCOUNT SETTINGS</div>
+          <div class="fl"><label class="fl-lbl">Full Name</label><input class="fi" id="set-name" placeholder="Your name"/></div>
+          <div class="fl"><label class="fl-lbl">Email</label><input class="fi" id="set-email" type="email" placeholder="email@example.com"/></div>
+          <div class="fl"><label class="fl-lbl">Phone</label><input class="fi" id="set-phone" placeholder="+212 ..."/></div>
+          <div class="fl"><label class="fl-lbl">City</label><input class="fi" id="set-city" placeholder="Casablanca"/></div>
+          <button class="btn-cta" style="font-size:10px;padding:12px 24px" onclick="saveSettings()">SAVE CHANGES →</button>
+        </div>
+        <div class="profile-tab" id="ptab-sizeguide">
+          <div class="profile-sec-h">SIZE GUIDE — HOODIES & T-SHIRTS</div>
+          <table class="sg-table">
+            <thead><tr><th>SIZE</th><th>CHEST (CM)</th><th>LENGTH (CM)</th><th>SLEEVE (CM)</th></tr></thead>
+            <tbody>
+              <tr><td>XS</td><td>88 – 92</td><td>68</td><td>58</td></tr>
+              <tr><td>S</td><td>92 – 96</td><td>70</td><td>60</td></tr>
+              <tr><td>M</td><td>96 – 100</td><td>72</td><td>62</td></tr>
+              <tr><td>L</td><td>100 – 104</td><td>74</td><td>64</td></tr>
+              <tr><td>XL</td><td>104 – 108</td><td>76</td><td>66</td></tr>
+              <tr><td>XXL</td><td>108 – 116</td><td>78</td><td>68</td></tr>
+            </tbody>
+          </table>
+          <div class="profile-sec-h" style="margin-top:32px">SIZE GUIDE — PANTS</div>
+          <table class="sg-table">
+            <thead><tr><th>SIZE</th><th>WAIST (CM)</th><th>HIP (CM)</th><th>INSEAM (CM)</th></tr></thead>
+            <tbody>
+              <tr><td>XS</td><td>70 – 74</td><td>90 – 94</td><td>76</td></tr>
+              <tr><td>S</td><td>74 – 78</td><td>94 – 98</td><td>78</td></tr>
+              <tr><td>M</td><td>78 – 82</td><td>98 – 102</td><td>80</td></tr>
+              <tr><td>L</td><td>82 – 86</td><td>102 – 106</td><td>82</td></tr>
+              <tr><td>XL</td><td>86 – 92</td><td>106 – 112</td><td>84</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="profile-foot"></div>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="pg" id="pg-dashboard">
+  <div class="dash-wrap">
+    <div class="dash-sidebar">
+      <div class="dash-logo-area">
+        <div class="dash-store-name" id="dash-store-name">MY STORE</div>
+        <span class="dash-store-status ss-active" id="dash-store-status">ACTIVE</span>
+      </div>
+      <button class="dash-nav-item on" onclick="showDashTab('store',this)"><i class="fa-regular fa-store" style="margin-right:8px;font-size:11px"></i>MY STORE</button>
+      <button class="dash-nav-item" onclick="showDashTab('products',this)"><i class="fa-regular fa-box" style="margin-right:8px;font-size:11px"></i>PRODUCTS</button>
+      <button class="dash-nav-item" onclick="showDashTab('orders',this)"><i class="fa-regular fa-receipt" style="margin-right:8px;font-size:11px"></i>ORDERS</button>
+      <button class="dash-nav-item" style="margin-top:auto;color:var(--blood);position:absolute;bottom:0;left:0;width:220px" onclick="logout()">LOGOUT →</button>
+    </div>
+    <div class="dash-content">
+      <!-- STORE TAB -->
+      <div class="dash-tab on" id="dtab-store">
+        <div class="dash-hdr">
+          <div class="dash-h">STORE SETTINGS</div>
+        </div>
+        <div class="fl"><label class="fl-lbl">Store Name</label><input class="fi" id="ds-name" placeholder="Your brand name"/></div>
+        <div class="fl"><label class="fl-lbl">Bio</label><textarea class="fi ft" id="ds-bio" placeholder="Tell your story..."></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="fl">
+            <label class="fl-lbl">Logo (URL or upload)</label>
+            <input class="fi" id="ds-logo" placeholder="https://..."/>
+          </div>
+          <div class="fl">
+            <label class="fl-lbl">Cover Image (URL or upload)</label>
+            <input class="fi" id="ds-cover" placeholder="https://..."/>
+          </div>
+        </div>
+        <button class="btn-cta" style="font-size:10px;padding:12px 24px;margin-top:8px" onclick="saveDashStore()">SAVE CHANGES →</button>
+      </div>
+      <!-- PRODUCTS TAB -->
+      <div class="dash-tab" id="dtab-products">
+        <div class="dash-hdr">
+          <div class="dash-h">PRODUCTS</div>
+          <button class="btn-cta" style="font-size:9px;padding:10px 20px" onclick="openProdDrawer(null)">+ ADD PRODUCT</button>
+        </div>
+        <table class="prod-table" id="dash-prod-table">
+          <thead><tr><th></th><th>NAME</th><th>CATEGORY</th><th>PRICE</th><th>STOCK</th><th>STATUS</th><th></th></tr></thead>
+          <tbody id="dash-prod-body"></tbody>
+        </table>
+      </div>
+      <!-- ORDERS TAB -->
+      <div class="dash-tab" id="dtab-orders">
+        <div class="dash-hdr"><div class="dash-h">ORDERS</div></div>
+        <div style="display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap">
+          <button class="fb on" onclick="filterDashOrders('ALL',this)">ALL</button>
+          <button class="fb" onclick="filterDashOrders('PENDING',this)">PENDING</button>
+          <button class="fb" onclick="filterDashOrders('CONFIRMED',this)">CONFIRMED</button>
+          <button class="fb" onclick="filterDashOrders('DELIVERY',this)">DELIVERY</button>
+          <button class="fb" onclick="filterDashOrders('REJECTED',this)">REJECTED</button>
+        </div>
+        <div id="dash-orders-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ADMIN ═══ -->
+<div class="pg" id="pg-admin">
+  <div class="admin-wrap">
+    <div class="admin-sidebar">
+      <div style="padding:20px 24px 20px;border-bottom:1px solid var(--b1);font-family:var(--font-d);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--w3)">ADMIN PANEL</div>
+      <button class="admin-nav-item on" onclick="showAdminTab('users',this)"><i class="fa-regular fa-users" style="margin-right:8px"></i>USERS</button>
+      <button class="admin-nav-item" onclick="showAdminTab('stores',this)"><i class="fa-regular fa-store" style="margin-right:8px"></i>STORES</button>
+    </div>
+    <div class="admin-content">
+      <div class="admin-tab on" id="atab-users">
+        <div class="dash-hdr"><div class="dash-h">USER MANAGEMENT</div></div>
+        <table class="prod-table" id="admin-users-table">
+          <thead><tr><th>NAME</th><th>EMAIL</th><th>ROLE</th><th>STATUS</th><th>JOINED</th><th></th></tr></thead>
+          <tbody id="admin-users-body"></tbody>
+        </table>
+      </div>
+      <div class="admin-tab" id="atab-stores">
+        <div class="dash-hdr"><div class="dash-h">STORE MANAGEMENT</div></div>
+        <table class="prod-table" id="admin-stores-table">
+          <thead><tr><th>STORE</th><th>OWNER</th><th>STATUS</th><th>PRODUCTS</th><th></th></tr></thead>
+          <tbody id="admin-stores-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART BACKDROP + DRAWER -->
+<div class="cb" id="cb" onclick="toggleCart()"></div>
+<div class="cd" id="cd">
+  <div class="cd-hdr">
+    <span class="cd-title" id="cd-title">CART</span>
+    <button class="cd-close" onclick="toggleCart()">×</button>
+  </div>
+  <div class="cd-body" id="cd-body-wrap">
+    <div id="cd-body"></div>
+  </div>
+  <div class="cd-foot" id="cd-foot" style="display:none">
+    <div class="cd-tot"><span>TOTAL</span><span class="cd-tot-v" id="cd-total">0 MAD</span></div>
+    <button class="btn-co" onclick="showCheckout()">CHECKOUT →</button>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div id="auth-modal" style="display:none"></div>
+
+<!-- PRODUCT DRAWER (dashboard) -->
+<div class="prod-drawer-overlay" id="pd-overlay" onclick="closeProdDrawer()"></div>
+<div class="prod-drawer" id="pd">
+  <div class="pd-hdr">
+    <span style="font-family:var(--font-d);font-size:11px;letter-spacing:.14em;text-transform:uppercase" id="pd-title">ADD PRODUCT</span>
+    <button class="cd-close" onclick="closeProdDrawer()">×</button>
+  </div>
+  <div class="pd-body">
+    <input type="hidden" id="pd-id"/>
+    <div class="fl"><label class="fl-lbl">Product Name</label><input class="fi" id="pd-name" placeholder="e.g. VOID CLASSIC HOODIE"/></div>
+    <div class="fl"><label class="fl-lbl">Description</label><textarea class="fi ft" id="pd-desc-input" placeholder="Describe your product..."></textarea></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="fl"><label class="fl-lbl">Price (MAD)</label><input class="fi" id="pd-price" type="number" placeholder="450"/></div>
+      <div class="fl"><label class="fl-lbl">Stock</label><input class="fi" id="pd-stock" type="number" placeholder="50"/></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="fl">
+        <label class="fl-lbl">Category</label>
+        <select class="fi fsort" id="pd-cat" style="width:100%">
+          <option value="HOODIE">HOODIE</option>
+          <option value="T-SHIRT">T-SHIRT</option>
+          <option value="JACKET">JACKET</option>
+          <option value="PANTS">PANTS</option>
+          <option value="ACCESSORIES">ACCESSORIES</option>
+        </select>
+      </div>
+      <div class="fl">
+        <label class="fl-lbl">Status</label>
+        <select class="fi fsort" id="pd-status" style="width:100%">
+          <option value="active">ACTIVE</option>
+          <option value="hidden">HIDDEN</option>
+        </select>
+      </div>
+    </div>
+    <div class="fl">
+      <label class="fl-lbl">Image URLs (one per line)</label>
+      <textarea class="fi ft" id="pd-images" placeholder="https://image1.jpg&#10;https://image2.jpg"></textarea>
+    </div>
+    <div style="display:flex;gap:10px;padding-top:8px">
+      <button class="btn-cta" style="flex:1;font-size:10px;padding:13px" onclick="saveProd()">SAVE PRODUCT →</button>
+      <button class="btn-out" style="padding:13px 20px;font-size:10px" onclick="closeProdDrawer()">CANCEL</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast-el"></div>
+
+<script>
+/* ══════════════════════════════════════
+   DATA
+══════════════════════════════════════ */
+const STORES = [
+  {id:1,name:'VOID CULTURE',bio:'Heavyweight streetwear from the underground. 380gsm minimum, no exceptions.',logo:'VC',cover:'pat-1',status:'ACTIVE',products:12},
+  {id:2,name:'DEAD STOCK CO',bio:'Archive culture reborn. Every piece is a reedition. Everything sells out.',logo:'DS',cover:'pat-2',status:'ACTIVE',products:8},
+  {id:3,name:'GANGSTER HYPE',bio:'Street-born. Hood-raised. The uniform of the real ones.',logo:'GH',cover:'pat-3',status:'ACTIVE',products:15},
+  {id:4,name:'REBEL INK',bio:'Tattoo culture meets streetwear. Limited runs, maximum impact.',logo:'RI',cover:'pat-4',status:'ACTIVE',products:6},
+  {id:5,name:'SKATE OR DIE',bio:'Skateboard-first apparel. Built for the streets and the ramps.',logo:'SD',cover:'pat-5',status:'ACTIVE',products:10},
+  {id:6,name:'TRAP LORDS',bio:'Hip-Hop energy translated into fabric. Every drop tells a story.',logo:'TL',cover:'pat-wide',status:'PENDING_APPROVAL',products:0},
+];
+
+const PRODUCTS = [
+  {id:1,name:'VOID CLASSIC HOODIE',store_id:1,category:'HOODIE',price:480,stock:15,status:'active',is_new:true,sizes:['S','M','L','XL'],desc:'380gsm French Terry heavyweight hoodie. Dropped shoulder. Double-needle throughout. The cornerstone piece.'},
+  {id:2,name:'DEAD STOCK ARCHIVE TEE',store_id:2,category:'T-SHIRT',price:220,original_price:280,stock:3,status:'active',is_new:false,sizes:['S','M','L'],desc:'Archive reedition graphic tee. Screen-printed on 220gsm cotton. Last units available.'},
+  {id:3,name:'REBEL CARGO PANTS',store_id:4,category:'PANTS',price:560,stock:8,status:'active',is_new:true,sizes:['S','M','L','XL'],desc:'Oversized cargo fit. Six pockets. 100% cotton ripstop. Wears in with every wash.'},
+  {id:4,name:'SKATE LOGO ZIP-UP',store_id:5,category:'HOODIE',price:440,stock:0,status:'out_of_stock',is_new:false,sizes:['M','L','XL'],desc:'Full-zip hoodie with embroidered logo. 320gsm fleece. Built for the session.'},
+  {id:5,name:'TRAP CITY OG TEE',store_id:3,category:'T-SHIRT',price:190,stock:25,status:'active',is_new:true,sizes:['XS','S','M','L','XL'],desc:'Original graphic from 2023 reissued. 200gsm. Washed finish.'},
+  {id:6,name:'INK BOMBER JACKET',store_id:4,category:'JACKET',price:890,stock:4,status:'active',is_new:false,sizes:['M','L'],desc:'Satin bomber with custom tattoo-art embroidery. Liner: 100% viscose. Shell: nylon.'},
+  {id:7,name:'VOID HEAVYWEIGHT TEE',store_id:1,category:'T-SHIRT',price:250,stock:20,status:'active',is_new:false,sizes:['S','M','L','XL','XXL'],desc:'260gsm heavyweight blank tee. Pre-washed. Drops lower than you expect.'},
+  {id:8,name:'DEAD STOCK COACH JACKET',store_id:2,category:'JACKET',price:720,stock:7,status:'active',is_new:true,sizes:['M','L','XL'],desc:'Nylon coach jacket. Rib-knit collar, cuffs, hem. Embroidered arch logo.'},
+  {id:9,name:'GANGSTER BAGGY DENIM',store_id:3,category:'PANTS',price:480,stock:12,status:'active',is_new:false,sizes:['S','M','L'],desc:'Oversized denim. Raw indigo wash. Worn once and they\'re yours forever.'},
+  {id:10,name:'SKATE BEANIE',store_id:5,category:'ACCESSORIES',price:120,stock:30,status:'active',is_new:false,sizes:['ONE SIZE'],desc:'100% merino wool. Rib-knit. One size fits all.'},
+  {id:11,name:'REBEL PULLOVER HOODIE',store_id:4,category:'HOODIE',price:420,stock:9,status:'active',is_new:true,sizes:['S','M','L','XL'],desc:'350gsm pullover. Kangaroo pocket lined in French Terry. Embroidered gothic logo.'},
+  {id:12,name:'VOID TRACK PANTS',store_id:1,category:'PANTS',price:380,stock:18,status:'active',is_new:false,sizes:['S','M','L','XL'],desc:'French Terry track pants. Elastic waist with drawcord. Side zip pockets.'},
+];
+
+const MOCK_USERS = [
+  {id:1,name:'Yassine Alami',email:'yassine@mail.com',role:'client',is_banned:false,joined:'Jan 2026'},
+  {id:2,name:'Kenza Benali',email:'kenza@mail.com',role:'client',is_banned:false,joined:'Feb 2026'},
+  {id:3,name:'Omar Tahiri',email:'omar@mail.com',role:'store',is_banned:false,joined:'Dec 2025'},
+  {id:4,name:'Spam Bot',email:'spam@bot.com',role:'client',is_banned:true,joined:'Mar 2026'},
+];
+
+const MOCK_ORDERS_STORE = [
+  {id:'EJT-48221',client:'Yassine A.',items:'VOID CLASSIC HOODIE / M',total:480,status:'PENDING'},
+  {id:'EJT-47189',client:'Kenza B.',items:'DEAD STOCK ARCHIVE TEE / S',total:220,status:'CONFIRMED'},
+  {id:'EJT-46004',client:'Amine C.',items:'VOID HEAVYWEIGHT TEE / L × 2',total:500,status:'DELIVERY'},
+  {id:'EJT-45111',client:'Sara M.',items:'VOID TRACK PANTS / M',total:380,status:'REJECTED'},
+];
+
+const MOCK_ORDERS_CLIENT = [
+  {id:'EJT-48221',date:'12 Apr 2026',items:'VOID CLASSIC HOODIE / M',total:480,status:'CONFIRMED'},
+  {id:'EJT-45003',date:'02 Mar 2026',items:'TRAP CITY OG TEE / L',total:190,status:'DELIVERY'},
+  {id:'EJT-42901',date:'18 Jan 2026',items:'REBEL CARGO PANTS / M',total:560,status:'PENDING'},
+];
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let cart = [];
+let currentFilter = 'ALL';
+let currentSort = 'default';
+let currentStoreFilter = null;
+let lastPage = 'home';
+let currentDetailProduct = null;
+let currentDetailStore = null;
+let currentUser = null; // null = guest
+let dashOrderFilter = 'ALL';
+let dashProducts = [...PRODUCTS.filter(p=>p.store_id===1)];
+
+/* Simulated current store owner = store 1 */
+const STORE_OWNER_STORE = STORES[0];
+
+/* ══════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════ */
+function go(page){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nav-lnk').forEach(l=>l.classList.remove('on'));
+  const el = document.getElementById('pg-'+page);
+  if(el){ el.classList.add('on'); el.scrollTop=0; window.scrollTo(0,0); }
+  const nl = document.getElementById('nl-'+page);
+  if(nl) nl.classList.add('on');
+  if(page==='home') renderHome();
+  if(page==='shop') renderShop();
+  if(page==='stores') renderStores();
+  if(page==='dashboard') renderDashboard();
+  if(page==='admin') renderAdmin();
+  if(page==='profile') renderProfile();
+  if(!['home','shop','stores','store-detail','detail'].includes(page)) injectFooters();
+  lastPage = page;
+}
+
+function goBack(){
+  if(currentDetailProduct){
+    if(currentStoreFilter!==null){ go('store-detail'); }
+    else { go('shop'); }
+  }
+}
+
+function filterCat(cat){
+  currentFilter = cat;
+  go('shop');
+}
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+function makeFooter(){
+  return`<footer class="foot">
+    <div><div class="foot-logo">EJOUTIYA</div><p class="foot-tag">Morocco's multi-brand streetwear platform. Rebellion in every thread.</p></div>
+    <div><div class="foot-h">Navigate</div>
+      <button class="foot-lnk" onclick="go('home')">Home</button>
+      <button class="foot-lnk" onclick="go('shop')">Shop All</button>
+      <button class="foot-lnk" onclick="go('stores')">All Brands</button>
+    </div>
+    <div><div class="foot-h">Info</div>
+      <button class="foot-lnk" onclick="showProfileTab('sizeguide',null);go('profile')">Size Guide</button>
+      <button class="foot-lnk">Shipping Info</button>
+      <button class="foot-lnk">FAQ</button>
+    </div>
+    <div><div class="foot-h">Follow</div>
+      <button class="foot-lnk">Instagram</button>
+      <button class="foot-lnk">TikTok</button>
+      <button class="foot-lnk">Snapchat</button>
+    </div>
+  </footer>
+  <div class="foot-bot">
+    <span class="foot-cp">© 2026 EJOUTIYA™ — All rights reserved</span>
+    <span class="foot-cp">Casablanca, Morocco</span>
+  </div>`;
+}
+function injectFooters(){
+  ['home-foot','shop-foot','stores-foot','profile-foot'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.innerHTML=makeFooter();
+  });
+}
+
+/* ══════════════════════════════════════
+   PRODUCT CARD MAKER
+══════════════════════════════════════ */
+function makeCard(p){
+  const store = STORES.find(s=>s.id===p.store_id)||{name:'UNKNOWN'};
+  const oos = p.stock===0||p.status==='out_of_stock';
+  const badge = p.is_new?`<div class="pc-badge bn">NEW</div>`
+    : oos?`<div class="pc-badge bl">OOS</div>`
+    : p.original_price?`<div class="pc-badge" style="background:var(--blood);color:var(--w)">SALE</div>`:'';
+  const oldP = p.original_price?`<span class="pc-price-old">${p.original_price} MAD</span>`:'';
+  const sizes = (p.sizes||['S','M','L','XL']).map(s=>
+    `<button class="sq${oos?' oos':''}" onclick="event.stopPropagation();quickAdd(${p.id},'${s}')">${s}</button>`
+  ).join('');
+  return`<div class="pc" onclick="openDetail(${p.id})">
+    <div class="pc-img">
+      ${badge}
+      <div class="pc-img-inner"><div class="pp" style="font-size:clamp(12px,2vw,24px)">${p.category}</div></div>
+      <div class="pc-overlay">${sizes}</div>
+    </div>
+    <div class="pc-info">
+      <div>
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-sub">${store.name}</div>
+      </div>
+      <div class="pc-price">${oldP}${p.price} MAD</div>
+    </div>
+  </div>`;
+}
+
+function makeStoreCard(s){
+  return`<div class="sc" onclick="openStore(${s.id})">
+    <div class="sc-cover"><div class="sc-cover-inner ${s.cover}" style="width:100%;height:100%"><div class="pp">${s.logo}</div></div></div>
+    <div class="sc-info">
+      <div class="sc-head">
+        <div class="sc-logo">${s.logo}</div>
+        <div>
+          <div class="sc-name">${s.name}</div>
+          ${s.status!=='ACTIVE'?`<span class="store-status ss-${s.status.toLowerCase().replace('_approval','')}" style="font-size:8px;padding:2px 6px;margin-top:2px;display:inline-block">${s.status}</span>`:''}
+        </div>
+      </div>
+      <div class="sc-bio">${s.bio}</div>
+      <div class="sc-footer">
+        <span class="sc-count">${s.products} PRODUCTS</span>
+        <button class="lnk-all">ENTER STORE →</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════
+   HOME
+══════════════════════════════════════ */
+function renderHome(){
+  const feat = PRODUCTS.filter(p=>p.is_new||p.status==='active').slice(0,4);
+  document.getElementById('home-feat').innerHTML = feat.map(makeCard).join('');
+  document.getElementById('home-stores').innerHTML = STORES.filter(s=>s.status==='ACTIVE').slice(0,3).map(makeStoreCard).join('');
+  injectFooters();
+}
+
+/* ══════════════════════════════════════
+   SHOP
+══════════════════════════════════════ */
+let shopProds = [...PRODUCTS];
+function renderShop(){
+  let prods = PRODUCTS.filter(p=>p.status!=='hidden');
+  if(currentFilter!=='ALL') prods=prods.filter(p=>p.category===currentFilter);
+  if(currentSort==='price-asc') prods=[...prods].sort((a,b)=>a.price-b.price);
+  else if(currentSort==='price-desc') prods=[...prods].sort((a,b)=>b.price-a.price);
+  else if(currentSort==='name') prods=[...prods].sort((a,b)=>a.name.localeCompare(b.name));
+  document.getElementById('shopCt').textContent = prods.length+' PRODUCTS';
+  document.getElementById('shop-grid').innerHTML = prods.map(makeCard).join('');
+  injectFooters();
+  /* update filter btn state */
+  document.querySelectorAll('#pg-shop .fb').forEach(b=>{
+    b.classList.toggle('on', b.textContent===currentFilter||(currentFilter==='ALL'&&b.textContent==='ALL'));
+  });
+}
+function setF(cat,btn){
+  currentFilter=cat;
+  document.querySelectorAll('#pg-shop .fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderShop();
+}
+function setSort(v){ currentSort=v; renderShop(); }
+
+/* ══════════════════════════════════════
+   STORES
+══════════════════════════════════════ */
+function renderStores(){
+  const active = STORES.filter(s=>s.status==='ACTIVE');
+  document.getElementById('storesCt').textContent = active.length+' BRANDS';
+  document.getElementById('stores-grid').innerHTML = active.map(makeStoreCard).join('');
+  injectFooters();
+}
+
+function openStore(id){
+  const store = STORES.find(s=>s.id===id);
+  if(!store) return;
+  currentDetailStore = store;
+  currentStoreFilter = id;
+  const prods = PRODUCTS.filter(p=>p.store_id===id&&p.status!=='hidden');
+  document.getElementById('store-detail-inner').innerHTML = `
+    <div class="store-hero texture">
+      <div class="store-hero-bg ${store.cover}"></div>
+      <div class="store-hero-ghost">${store.name}</div>
+      <div class="store-hero-grad"></div>
+      <div class="store-hero-body">
+        <div style="cursor:pointer;color:var(--w3);font-family:var(--font-d);font-size:9px;letter-spacing:.12em;text-transform:uppercase;transition:color .15s;position:absolute;top:20px;left:40px;z-index:5" onmouseenter="this.style.color='var(--w)'" onmouseleave="this.style.color='var(--w3)'" onclick="go('stores')">← ALL BRANDS</div>
+        <div class="store-logo-lg">${store.logo}</div>
+        <div class="store-hero-info">
+          <div class="store-name-lg">${store.name}</div>
+          <div class="store-bio-lg">${store.bio}</div>
+        </div>
+        <span class="store-status ss-active">${store.status}</span>
+      </div>
+    </div>
+    <div class="mq"><div class="mq-inner">
+      <span class="mq-seg">${store.name}</span><span class="mq-dot">///</span>
+      <span class="mq-seg">OFFICIAL STORE</span><span class="mq-dot">///</span>
+      <span class="mq-seg">${prods.length} PRODUCTS</span><span class="mq-dot">///</span>
+      <span class="mq-seg">CASH ON DELIVERY</span><span class="mq-dot">///</span>
+      <span class="mq-seg">${store.name}</span><span class="mq-dot">///</span>
+      <span class="mq-seg">OFFICIAL STORE</span><span class="mq-dot">///</span>
+      <span class="mq-seg">${prods.length} PRODUCTS</span><span class="mq-dot">///</span>
+      <span class="mq-seg">CASH ON DELIVERY</span><span class="mq-dot">///</span>
+    </div></div>
+    <section class="sec">
+      <div class="sec-hdr">
+        <div><div class="sec-label">Collection</div><div class="sec-title">ALL PRODUCTS</div></div>
+        <span style="font-family:var(--font-d);font-size:10px;letter-spacing:.1em;color:var(--w4)">${prods.length} ITEMS</span>
+      </div>
+      <div class="pg-grid pg-grid-auto">${prods.map(makeCard).join('')}</div>
+    </section>
+    ${makeFooter()}
+  `;
+  go('store-detail');
+}
+
+/* ══════════════════════════════════════
+   PRODUCT DETAIL
+══════════════════════════════════════ */
+let selSize = null;
+function openDetail(id){
+  const p = PRODUCTS.find(x=>x.id===id);
+  if(!p) return;
+  currentDetailProduct=p;
+  selSize=null;
+  const store = STORES.find(s=>s.id===p.store_id)||{name:'?',logo:'?'};
+  const oos = p.stock===0||p.status==='out_of_stock';
+  document.getElementById('det-back-txt').textContent = currentStoreFilter ? store.name : 'ALL PRODUCTS';
+  document.getElementById('det-coll').textContent = p.category;
+  document.getElementById('det-name').textContent = p.name;
+  document.getElementById('det-price').innerHTML = p.original_price
+    ?`<span class="det-oldprice">${p.original_price} MAD</span>${p.price} MAD`
+    :`${p.price} MAD`;
+  document.getElementById('det-store-row').innerHTML = `
+    <div class="det-store-row" onclick="openStore(${store.id})">
+      <div class="sc-logo">${store.logo}</div>
+      <div>
+        <div style="font-family:var(--font-d);font-size:10px;letter-spacing:.08em;text-transform:uppercase">${store.name}</div>
+        <div style="font-size:10px;color:var(--w4);margin-top:2px">${PRODUCTS.filter(x=>x.store_id===store.id).length} PRODUCTS</div>
+      </div>
+      <div style="margin-left:auto;font-family:var(--font-d);font-size:9px;letter-spacing:.12em;color:var(--w3)">VISIT STORE →</div>
+    </div>`;
+  document.getElementById('det-desc').textContent = p.desc||'';
+  document.getElementById('det-main').innerHTML = `<div class="pp" style="width:100%;height:100%;font-size:clamp(20px,5vw,60px)">${p.category}</div>`;
+  const thumbs = (p.images||[{type:'cat',label:p.category},{type:'cat',label:p.category+'2'},{type:'cat',label:p.category+'3'}]);
+  document.getElementById('det-thumbs').innerHTML = [0,1,2].map((i)=>
+    `<div class="det-thumb${i===0?' on':''}" onclick="selThumb(this,${i})"><div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:7px;color:var(--w4);text-transform:uppercase">${p.category[0]}</div></div>`
+  ).join('');
+  const sizes = p.sizes||['S','M','L','XL'];
+  document.getElementById('sz-grid').innerHTML = sizes.map(s=>`
+    <button class="sz-btn" onclick="pickSize('${s}',this)">${s}</button>
+  `).join('');
+  const atc = document.getElementById('btn-atc');
+  atc.disabled = oos;
+  atc.textContent = oos ? 'OUT OF STOCK' : 'ADD TO CART →';
+  document.getElementById('sz-err').style.display='none';
+  go('detail');
+}
+
+function selThumb(el,i){
+  document.querySelectorAll('.det-thumb').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function pickSize(s,btn){
+  selSize=s;
+  document.querySelectorAll('.sz-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('sz-err').style.display='none';
+}
+
+function doAtc(){
+  if(!selSize){ document.getElementById('sz-err').style.display='inline'; return; }
+  const p=currentDetailProduct;
+  addToCart(p.id, selSize);
+  toast('ADDED TO CART.');
+}
+
+function quickAdd(pid,size){
+  addToCart(pid,size);
+  toast('ADDED TO CART.');
+}
+
+/* ══════════════════════════════════════
+   CART
+══════════════════════════════════════ */
+function addToCart(pid,size){
+  const existing = cart.find(i=>i.pid===pid&&i.size===size);
+  const p = PRODUCTS.find(x=>x.id===pid);
+  if(existing){ existing.qty++; }
+  else { cart.push({pid,size,qty:1,name:p.name,price:p.price,cat:p.category,store:STORES.find(s=>s.id===p.store_id)?.name||'?'}); }
+  updateCartCount();
+}
+
+function updateCartCount(){
+  const total = cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cCount').textContent=total;
+}
+
+function toggleCart(){
+  document.getElementById('cd').classList.toggle('on');
+  document.getElementById('cb').classList.toggle('on');
+  renderCart();
+  document.getElementById('cd-title').textContent='CART';
+  document.getElementById('cd-body-wrap').innerHTML='<div id="cd-body"></div>';
+  document.getElementById('cd-foot').style.display='';
+  renderCart();
+}
+
+function renderCart(){
+  const body=document.getElementById('cd-body');
+  const foot=document.getElementById('cd-foot');
+  if(!body) return;
+  if(cart.length===0){
+    foot.style.display='none';
+    body.innerHTML=`<div class="cd-empty"><div class="cd-empty-icon">∅</div><div class="cd-empty-txt">Your cart is empty.<br>Start shopping.</div></div>`;
+    return;
+  }
+  foot.style.display='block';
+  body.innerHTML=cart.map((it,i)=>`
+    <div class="ci">
+      <div class="ci-img">${it.cat}</div>
+      <div>
+        <div class="ci-name">${it.name}</div>
+        <div class="ci-meta">${it.store} / ${it.size}</div>
+        <div class="ci-qty">
+          <button class="qb" onclick="qtyCart(${i},-1)">−</button>
+          <span class="qn">${it.qty}</span>
+          <button class="qb" onclick="qtyCart(${i},1)">+</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <span class="ci-p">${it.price*it.qty} MAD</span>
+        <button class="ci-rm" onclick="rmCart(${i})">×</button>
+      </div>
+    </div>`).join('');
+  const total=cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  document.getElementById('cd-total').textContent=total+' MAD';
+}
+
+function qtyCart(i,d){
+  cart[i].qty+=d;
+  if(cart[i].qty<=0) cart.splice(i,1);
+  updateCartCount();
+  renderCart();
+}
+
+function rmCart(i){ cart.splice(i,1); updateCartCount(); renderCart(); }
+
+function showCheckout(){
+  document.getElementById('cd-title').textContent='CHECKOUT';
+  document.getElementById('cd-foot').style.display='none';
+  document.getElementById('cd-body-wrap').innerHTML=`
+    <div class="cd-checkout">
+      <div class="cd-checkout-hdr">DELIVERY INFORMATION</div>
+      <div class="fl"><label class="fl-lbl">Phone</label><input class="fi" id="co-phone" placeholder="+212 6 ..."/></div>
+      <div class="fl"><label class="fl-lbl">City</label><input class="fi" id="co-city" placeholder="Casablanca"/></div>
+      <div class="fl"><label class="fl-lbl">Postal Code</label><input class="fi" id="co-postal" placeholder="20000"/></div>
+      <div class="fl"><label class="fl-lbl">Address</label><input class="fi" id="co-addr" placeholder="123 Rue Mohammed V"/></div>
+      <div style="padding:14px;background:var(--s1);border:1px solid var(--b1);margin-bottom:18px">
+        <div style="font-family:var(--font-d);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--w4);margin-bottom:6px">PAYMENT METHOD</div>
+        <div style="font-size:12px;color:var(--w3)">Cash on Delivery — you pay when your order arrives.</div>
+      </div>
+      <button class="btn-co" onclick="confirmOrder()">CONFIRM ORDER →</button>
+      <button class="btn-out" style="width:100%;text-align:center;padding:12px;margin-top:8px;font-size:9px" onclick="toggleCart()">CANCEL</button>
+    </div>`;
+}
+
+function confirmOrder(){
+  const orderNum='EJT-'+String(Math.floor(Math.random()*90000)+10000);
+  cart=[];
+  updateCartCount();
+  document.getElementById('cd-body-wrap').innerHTML=`
+    <div class="conf-screen">
+      <div class="conf-check"><i class="fa-solid fa-check"></i></div>
+      <div class="conf-h">ORDER<br>CONFIRMED</div>
+      <div class="conf-id">${orderNum}</div>
+      <p style="font-size:12px;color:var(--w3);line-height:1.8;max-width:280px;text-align:center">Your order has been received. Our team will confirm it shortly. Cash on delivery — pay when it arrives.</p>
+      <button class="btn-cta" style="font-size:9px;padding:12px 24px;margin-top:8px" onclick="toggleCart()">CONTINUE SHOPPING →</button>
+    </div>`;
+  document.getElementById('cd-foot').style.display='none';
+  document.getElementById('cd-title').textContent='ORDER PLACED';
+}
+
+/* ══════════════════════════════════════
+   AUTH
+══════════════════════════════════════ */
+function openAuth(mode){
+  const modal=document.getElementById('auth-modal');
+  modal.style.display='block';
+  if(mode==='login') renderLoginModal();
+  else if(mode==='register') renderRegisterModal();
+  else if(mode==='register-store') renderRegisterStoreModal();
+}
+
+function closeAuth(){
+  document.getElementById('auth-modal').style.display='none';
+}
+
+function renderLoginModal(){
+  document.getElementById('auth-modal').innerHTML=`
+    <div class="auth-overlay" onclick="if(event.target===this)closeAuth()">
+      <div class="auth-box">
+        <button class="auth-close" onclick="closeAuth()">×</button>
+        <div class="auth-title">SIGN IN</div>
+        <div class="auth-sub">Access your account and orders.</div>
+        <div class="auth-err" id="auth-err" style="display:none"></div>
+        <div class="fl"><label class="fl-lbl">Email</label><input class="fi" id="l-email" type="email" placeholder="email@example.com"/></div>
+        <div class="fl"><label class="fl-lbl">Password</label><input class="fi" id="l-pass" type="password" placeholder="••••••••"/></div>
+        <button class="btn-cta" style="width:100%;font-size:10px;padding:13px;margin-top:4px" onclick="doLogin()">SIGN IN →</button>
+        <div class="auth-switch">Don't have an account? <button onclick="renderRegisterModal()">CREATE ACCOUNT</button></div>
+        <div class="auth-switch" style="margin-top:8px">Are you a brand? <button onclick="renderRegisterStoreModal()">REGISTER STORE</button></div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--b1);font-family:var(--font-d);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--w4);text-align:center">
+          DEMO: client / store / admin
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn-out" style="flex:1;font-size:9px;padding:10px" onclick="demoLogin('client')">CLIENT</button>
+          <button class="btn-out" style="flex:1;font-size:9px;padding:10px" onclick="demoLogin('store')">STORE</button>
+          <button class="btn-out" style="flex:1;font-size:9px;padding:10px" onclick="demoLogin('admin')">ADMIN</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderRegisterModal(){
+  document.getElementById('auth-modal').innerHTML=`
+    <div class="auth-overlay" onclick="if(event.target===this)closeAuth()">
+      <div class="auth-box">
+        <button class="auth-close" onclick="closeAuth()">×</button>
+        <div class="auth-title">CREATE ACCOUNT</div>
+        <div class="auth-sub">Join the movement.</div>
+        <div class="fl"><label class="fl-lbl">Full Name</label><input class="fi" id="r-name" placeholder="Your name"/></div>
+        <div class="fl"><label class="fl-lbl">Email</label><input class="fi" id="r-email" type="email" placeholder="email@example.com"/></div>
+        <div class="fl"><label class="fl-lbl">Password</label><input class="fi" id="r-pass" type="password" placeholder="••••••••"/></div>
+        <div class="fl"><label class="fl-lbl">Confirm Password</label><input class="fi" id="r-pass2" type="password" placeholder="••••••••"/></div>
+        <button class="btn-cta" style="width:100%;font-size:10px;padding:13px;margin-top:4px" onclick="doRegister()">CREATE ACCOUNT →</button>
+        <div class="auth-switch">Already have an account? <button onclick="renderLoginModal()">SIGN IN</button></div>
+      </div>
+    </div>`;
+}
+
+function renderRegisterStoreModal(step){
+  step = step||1;
+  document.getElementById('auth-modal').innerHTML=`
+    <div class="auth-overlay" onclick="if(event.target===this)closeAuth()">
+      <div class="auth-box">
+        <button class="auth-close" onclick="closeAuth()">×</button>
+        <div class="auth-title">REGISTER STORE</div>
+        <div class="step-indicator">
+          <span class="step-item${step===1?' on':''}">STEP 1</span>
+          <span style="color:var(--w4);margin:0 6px">—</span>
+          <span class="step-item${step===2?' on':''}">STEP 2</span>
+        </div>
+        ${step===1?`
+        <div class="fl"><label class="fl-lbl">Store Name</label><input class="fi" id="rs-name" placeholder="Your brand name"/></div>
+        <div class="fl"><label class="fl-lbl">Bio</label><textarea class="fi ft" id="rs-bio" placeholder="Tell your story..."></textarea></div>
+        <div class="fl"><label class="fl-lbl">Email</label><input class="fi" id="rs-email" type="email" placeholder="brand@example.com"/></div>
+        <div class="fl"><label class="fl-lbl">Password</label><input class="fi" id="rs-pass" type="password" placeholder="••••••••"/></div>
+        <button class="btn-cta" style="width:100%;font-size:10px;padding:13px;margin-top:4px" onclick="renderRegisterStoreModal(2)">NEXT: BRAND ASSETS →</button>
+        `:`
+        <div class="fl"><label class="fl-lbl">Logo URL</label><input class="fi" id="rs-logo" placeholder="https://logo.png"/></div>
+        <div class="fl"><label class="fl-lbl">Cover Image URL</label><input class="fi" id="rs-cover" placeholder="https://cover.jpg"/></div>
+        <div class="img-drop" style="margin-bottom:18px"><div class="img-drop-txt">DRAG & DROP IMAGE FILES<br>OR CLICK TO UPLOAD<br><span style="color:var(--w4);font-family:var(--font-b);font-size:11px;text-transform:none;margin-top:6px;display:block">PNG, JPG up to 5MB</span></div></div>
+        <div style="display:flex;gap:10px">
+          <button class="btn-out" style="flex:1;font-size:10px;padding:13px" onclick="renderRegisterStoreModal(1)">← BACK</button>
+          <button class="btn-cta" style="flex:2;font-size:10px;padding:13px" onclick="doRegisterStore()">SUBMIT FOR APPROVAL →</button>
+        </div>
+        `}
+        <div class="auth-switch" style="margin-top:12px">Already have an account? <button onclick="renderLoginModal()">SIGN IN</button></div>
+      </div>
+    </div>`;
+}
+
+function doLogin(){
+  const email=document.getElementById('l-email').value;
+  if(!email){ showAuthErr('EMAIL REQUIRED'); return; }
+  toast('WELCOME BACK.');
+  currentUser={name:'Demo User',role:'client',email};
+  updateNavForUser();
+  closeAuth();
+}
+
+function demoLogin(role){
+  const names={client:'Alex Tazi',store:'VOID CULTURE',admin:'Super Admin'};
+  currentUser={name:names[role],role,email:role+'@demo.com'};
+  updateNavForUser();
+  closeAuth();
+  toast('LOGGED IN AS '+role.toUpperCase()+'.');
+  if(role==='store') go('dashboard');
+  else if(role==='admin') go('admin');
+  else go('home');
+}
+
+function doRegister(){
+  toast('ACCOUNT CREATED. WELCOME.');
+  currentUser={name:'New User',role:'client',email:'new@user.com'};
+  updateNavForUser();
+  closeAuth();
+}
+
+function doRegisterStore(){
+  toast('STORE SUBMITTED FOR APPROVAL.');
+  closeAuth();
+}
+
+function logout(){
+  currentUser=null;
+  updateNavForUser();
+  go('home');
+  toast('LOGGED OUT.');
+}
+
+function showAuthErr(msg){
+  const el=document.getElementById('auth-err');
+  if(el){ el.style.display='block'; el.textContent=msg; }
+}
+
+function updateNavForUser(){
+  const isGuest=!currentUser;
+  const isClient=currentUser?.role==='client';
+  const isStore=currentUser?.role==='store';
+  const isAdmin=currentUser?.role==='admin';
+  document.getElementById('nav-auth-btn').style.display=isGuest?'':'none';
+  document.getElementById('nav-profile-btn').style.display=isGuest?'none':'';
+  document.getElementById('nl-dashboard').style.display=isStore?'':'none';
+  document.getElementById('nl-admin').style.display=isAdmin?'':'none';
+  if(currentUser) document.getElementById('nav-profile-btn').title=currentUser.name;
+}
+
+/* ══════════════════════════════════════
+   PROFILE
+══════════════════════════════════════ */
+function renderProfile(){
+  if(!currentUser){ openAuth('login'); return; }
+  document.getElementById('profile-name').textContent=(currentUser.name||'MY ACCOUNT').toUpperCase();
+  document.getElementById('set-name').value=currentUser.name||'';
+  document.getElementById('set-email').value=currentUser.email||'';
+  renderProfileOrders();
+  injectFooters();
+}
+
+function showProfileTab(tab,btn){
+  document.querySelectorAll('.profile-nav-btn').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  else{
+    document.querySelectorAll('.profile-nav-btn').forEach(b=>{
+      if(b.textContent.toLowerCase().includes(tab.toLowerCase().replace('sizeguide','size'))) b.classList.add('on');
+    });
+  }
+  document.querySelectorAll('.profile-tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('ptab-'+tab).classList.add('on');
+}
+
+function renderProfileOrders(){
+  document.getElementById('profile-orders-list').innerHTML = MOCK_ORDERS_CLIENT.map(o=>`
+    <div class="order-row-client">
+      <div><div class="order-id-text">${o.id}</div><div style="font-size:10px;color:var(--w4);margin-top:3px">${o.date}</div></div>
+      <div style="font-size:11px;color:var(--w3)">${o.items}</div>
+      <div style="font-family:var(--font-d);font-size:12px">${o.total} MAD</div>
+      <span class="status-pill os-${o.status}">${o.status}</span>
+    </div>`).join('');
+}
+
+function saveSettings(){ toast('SETTINGS SAVED.'); }
+
+/* ══════════════════════════════════════
+   DASHBOARD
+══════════════════════════════════════ */
+function renderDashboard(){
+  if(!currentUser||currentUser.role!=='store'){ go('home'); return; }
+  document.getElementById('dash-store-name').textContent=STORE_OWNER_STORE.name;
+  renderDashProducts();
+  renderDashOrders();
+  document.getElementById('ds-name').value=STORE_OWNER_STORE.name;
+  document.getElementById('ds-bio').value=STORE_OWNER_STORE.bio;
+}
+
+function showDashTab(tab,btn){
+  document.querySelectorAll('.dash-nav-item').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.dash-tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('dtab-'+tab).classList.add('on');
+}
+
+function renderDashProducts(){
+  document.getElementById('dash-prod-body').innerHTML = dashProducts.map(p=>`
+    <tr>
+      <td><div class="prod-thumb">${p.category[0]}</div></td>
+      <td style="font-family:var(--font-d);font-size:10px;letter-spacing:.06em">${p.name}</td>
+      <td style="color:var(--w3)">${p.category}</td>
+      <td style="font-family:var(--font-d)">${p.price} MAD</td>
+      <td style="color:${p.stock===0?'var(--blood)':'var(--w3)'}">${p.stock}</td>
+      <td><span class="status-pill sp-${p.status==='active'?'active':p.stock===0?'oos':'hidden'}">${p.status.toUpperCase()}</span></td>
+      <td style="display:flex;gap:6px;padding:12px 0">
+        <button class="tbl-action tbl-edit" onclick="openProdDrawer(${p.id})">EDIT</button>
+        <button class="tbl-action tbl-del" onclick="deleteProd(${p.id})">DEL</button>
+      </td>
+    </tr>`).join('');
+}
+
+function renderDashOrders(){
+  let orders = MOCK_ORDERS_STORE;
+  if(dashOrderFilter!=='ALL') orders=orders.filter(o=>o.status===dashOrderFilter);
+  document.getElementById('dash-orders-list').innerHTML = orders.map(o=>`
+    <div class="order-row">
+      <div><div class="order-id-text">${o.id}</div></div>
+      <div style="font-size:11px;color:var(--w3)">${o.items}</div>
+      <div style="font-family:var(--font-d);font-size:12px">${o.total} MAD</div>
+      <span class="status-pill os-${o.status}">${o.status}</span>
+      <div style="display:flex;gap:5px">
+        ${o.status==='PENDING'?`<button class="order-action oa-confirm" onclick="updateOrderStatus('${o.id}','CONFIRMED')">CONFIRM</button><button class="order-action oa-reject" onclick="updateOrderStatus('${o.id}','REJECTED')">REJECT</button>`:''}
+      </div>
+    </div>`).join('');
+}
+
+function filterDashOrders(f,btn){
+  dashOrderFilter=f;
+  document.querySelectorAll('#dtab-orders .fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderDashOrders();
+}
+
+function updateOrderStatus(id,status){
+  const o=MOCK_ORDERS_STORE.find(x=>x.id===id);
+  if(o){ o.status=status; renderDashOrders(); toast('ORDER '+id+' → '+status+'.'); }
+}
+
+function saveDashStore(){ toast('STORE SETTINGS SAVED.'); }
+
+/* PRODUCT DRAWER */
+function openProdDrawer(id){
+  const p = id ? dashProducts.find(x=>x.id===id) : null;
+  document.getElementById('pd-title').textContent = p?'EDIT PRODUCT':'ADD PRODUCT';
+  document.getElementById('pd-id').value = id||'';
+  document.getElementById('pd-name').value = p?p.name:'';
+  document.getElementById('pd-desc-input').value = p?p.desc:'';
+  document.getElementById('pd-price').value = p?p.price:'';
+  document.getElementById('pd-stock').value = p?p.stock:'';
+  document.getElementById('pd-cat').value = p?p.category:'HOODIE';
+  document.getElementById('pd-status').value = p?p.status:'active';
+  document.getElementById('pd-images').value = '';
+  document.getElementById('pd').classList.add('on');
+  document.getElementById('pd-overlay').classList.add('on');
+}
+
+function closeProdDrawer(){
+  document.getElementById('pd').classList.remove('on');
+  document.getElementById('pd-overlay').classList.remove('on');
+}
+
+function saveProd(){
+  const id=document.getElementById('pd-id').value;
+  const data={
+    name:document.getElementById('pd-name').value||'NEW PRODUCT',
+    desc:document.getElementById('pd-desc-input').value,
+    price:parseInt(document.getElementById('pd-price').value)||0,
+    stock:parseInt(document.getElementById('pd-stock').value)||0,
+    category:document.getElementById('pd-cat').value,
+    status:document.getElementById('pd-status').value,
+    store_id:1,sizes:['S','M','L','XL'],is_new:true,
+  };
+  if(id){
+    const idx=dashProducts.findIndex(x=>x.id===parseInt(id));
+    if(idx>=0) dashProducts[idx]={...dashProducts[idx],...data};
+  } else {
+    data.id=Date.now();
+    dashProducts.push(data);
+  }
+  renderDashProducts();
+  closeProdDrawer();
+  toast(id?'PRODUCT UPDATED.':'PRODUCT ADDED.');
+}
+
+function deleteProd(id){
+  dashProducts=dashProducts.filter(p=>p.id!==id);
+  renderDashProducts();
+  toast('PRODUCT DELETED.');
+}
+
+/* ══════════════════════════════════════
+   ADMIN
+══════════════════════════════════════ */
+function renderAdmin(){
+  if(!currentUser||currentUser.role!=='admin'){ go('home'); return; }
+  renderAdminUsers();
+  renderAdminStores();
+}
+
+function showAdminTab(tab,btn){
+  document.querySelectorAll('.admin-nav-item').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('atab-'+tab).classList.add('on');
+}
+
+function renderAdminUsers(){
+  document.getElementById('admin-users-body').innerHTML = MOCK_USERS.map(u=>`
+    <tr>
+      <td style="font-family:var(--font-d);font-size:10px">${u.name}</td>
+      <td style="color:var(--w3)">${u.email}</td>
+      <td><span class="status-pill" style="border-color:var(--b3);color:var(--w3)">${u.role.toUpperCase()}</span></td>
+      <td><span class="status-pill ${u.is_banned?'sp-oos':'sp-active'}">${u.is_banned?'BANNED':'ACTIVE'}</span></td>
+      <td style="color:var(--w4);font-size:11px">${u.joined}</td>
+      <td>
+        ${u.is_banned
+          ?`<button class="tbl-action tbl-edit" onclick="adminBan(${u.id},false)">UNBAN</button>`
+          :u.role!=='admin'?`<button class="tbl-action tbl-del" onclick="adminBan(${u.id},true)">BAN</button>`:''
+        }
+      </td>
+    </tr>`).join('');
+}
+
+function renderAdminStores(){
+  document.getElementById('admin-stores-body').innerHTML = STORES.map(s=>`
+    <tr>
+      <td style="font-family:var(--font-d);font-size:10px">${s.name}</td>
+      <td style="color:var(--w3)">owner@${s.name.toLowerCase().replace(/ /g,'')}.com</td>
+      <td><span class="store-status ss-${s.status==='ACTIVE'?'active':s.status==='PENDING_APPROVAL'?'pending':'suspended'}">${s.status}</span></td>
+      <td style="font-family:var(--font-d)">${s.products}</td>
+      <td style="display:flex;gap:5px;padding:12px 0">
+        ${s.status==='PENDING_APPROVAL'?`<button class="order-action oa-confirm" onclick="adminStoreAction(${s.id},'approve')">APPROVE</button><button class="order-action oa-reject" onclick="adminStoreAction(${s.id},'reject')">REJECT</button>`:''}
+        ${s.status==='ACTIVE'?`<button class="tbl-action tbl-del" onclick="adminStoreAction(${s.id},'suspend')">SUSPEND</button>`:''}
+        ${s.status==='SUSPENDED'?`<button class="tbl-action tbl-edit" onclick="adminStoreAction(${s.id},'approve')">REACTIVATE</button>`:''}
+      </td>
+    </tr>`).join('');
+}
+
+function adminBan(id,ban){
+  const u=MOCK_USERS.find(x=>x.id===id);
+  if(u){ u.is_banned=ban; renderAdminUsers(); toast(u.name+(ban?' BANNED.':' UNBANNED.')); }
+}
+
+function adminStoreAction(id,action){
+  const s=STORES.find(x=>x.id===id);
+  if(!s) return;
+  if(action==='approve') s.status='ACTIVE';
+  else if(action==='reject'||action==='suspend') s.status='SUSPENDED';
+  renderAdminStores();
+  toast('STORE '+s.name+' → '+action.toUpperCase()+'.');
+}
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+let toastT;
+function toast(msg,type){
+  const el=document.getElementById('toast-el');
+  el.textContent=msg;
+  el.className='toast'+(type==='err'?' err':'');
+  el.classList.add('on');
+  clearTimeout(toastT);
+  toastT=setTimeout(()=>el.classList.remove('on'),3000);
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+renderHome();
+</script>
+</body>
+</html>
